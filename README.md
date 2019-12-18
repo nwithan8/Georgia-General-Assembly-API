@@ -39,14 +39,17 @@ otherCommitteesForCommitteeMember = committeeMember.getCommittees()
 ### Methods:
 #### getSession():
 Get all Georgia General Assembly sessions (run automatically when GeneralAssembly object created, so doesn't need to be manually run)
+
 Returns: list of Session objects
 
 #### getYears():
 Get all Georgia General Assembly years (run automatically when GeneralAssembly object created, so doesn't need to be manually run)
+
 Returns: years (JSON)
 
 #### getVotes():
 Get all Georgia General Assembly votes
+
 Returns: list of Vote objects
 
 #### getVote(voteId, Session object (optional), Legislation object (optional)):
@@ -55,22 +58,27 @@ Returns: Vote object
 
 #### getMember(int memberId, Session object (optional), Committee object (optional)):
 Get a specific member
+
 Returns: Member object
 
 #### getCommittee(int committeeId, Session object (optional), Member object (optional), Legislation object (optional)):
 Get a specific committee
+
 Returns: Committee object
 
 #### getLegislation(int legislationId, Session object (optional), Member object (optional), Committee object (optional)):
 Get a specific piece of legislation
+
 Returns: Legislation object
 
 #### getCommitteeForSession(int sessionId, int committeeId):
 Get a specific committee from a specific session
+
 Returns: Committee object
 
 #### getLegislationByTypeAndNumber(string billType, int billNumber):
 Get a specific piece of legislation from its bill type and number. Ex. ('HB', 280)
+
 Returns: Legislation object
 
 ## Session()
@@ -94,18 +102,22 @@ Returns: Legislation object
 ### Methods:
 #### getSchedule(string chamber):
 Get the schedule of a specific chamber. Ex. ('House')
+
 Returns: Chamber schedule (JSON)
 
 #### getMembers():
 Get the session's members
+
 Returns: list of Member objects
 
 #### getLegislationItems():
 Get the sessions' pieces of legislation
+
 Returns: list of Legislation objects
 
 #### getCommittees():
 Get the sessions' committees
+
 Returns: list of Committee objects
 
 ## Member()
@@ -173,6 +185,7 @@ Returns: list of Committee objects
 ### Methods:
 #### getCommittees(Session object (optional), Committee object (optional)):
 Get committees the member serves on
+
 Returns: dictionary of Committee objects
 
 ## Vote()
@@ -240,10 +253,12 @@ Returns: dictionary of Committee objects
 ### Methods:
 #### getVotes():
 Get votes for the piece of legislation
+
 Returns: list of Vote objects
 
 #### getCommittees(Session object (optional), Committee object (optional)):
 Get committees discussing the legislation
+
 Returns: list of Committee objects
 
 ## Committee():
@@ -272,6 +287,7 @@ Returns: list of Committee objects
 ### Methods:
 #### getMembers(Session object (optional), Member object (optional)):
 Get committee members
+
 Returns: list of Member objects
 
 ## District():

@@ -30,17 +30,17 @@ otherCommitteesForCommitteeMember = committeeMember.getCommittees()
 # Documentation
 ## GeneralAssembly()
 ### Properties:
-**sessions**: list of Session objects { [Session, ... ] }
+**sessions**: dictionary of Session objects, most recent first { {'Name': Session, ... } }
 
 **years**: session years {JSON}
 
-**votes**: list of Vote objects { [Vote, ... ] }
+**votes**: dictionary of Vote objects { {'Id': Vote, ... } }
 
 ### Methods:
 #### getSession():
 Get all Georgia General Assembly sessions (run automatically when GeneralAssembly object created, so doesn't need to be manually run)
 
-Returns: list of Session objects { [Session, ... ] }
+Returns: dictionary of Session objects, most recent first { {'Name': Session, ... } }
 
 #### getYears():
 Get all Georgia General Assembly years (run automatically when GeneralAssembly object created, so doesn't need to be manually run)
@@ -50,9 +50,9 @@ Returns: years (JSON)
 #### getVotes():
 Get all Georgia General Assembly votes
 
-Returns: list of Vote objects { [Vote, ... ] }
+Returns: dictionary of Vote objects { {'Id': Vote, ... } }
 
-#### getVote(voteId, Session object (optional), Legislation object (optional)):
+#### getVote(int voteId, Session object (optional), Legislation object (optional)):
 Get a specific vote
 
 Returns: Vote object {Vote}

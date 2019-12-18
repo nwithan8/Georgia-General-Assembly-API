@@ -30,17 +30,17 @@ otherCommitteesForCommitteeMember = committeeMember.getCommittees()
 # Documentation
 ## GeneralAssembly()
 ### Properties:
-**sessions**: list of Session objects
+**sessions**: list of Session objects { [Session, ... ] }
 
-**years**: JSON data of session years
+**years**: session years {JSON}
 
-**votes**: list of Vote objects
+**votes**: list of Vote objects { [Vote, ... ] }
 
 ### Methods:
 #### getSession():
 Get all Georgia General Assembly sessions (run automatically when GeneralAssembly object created, so doesn't need to be manually run)
 
-Returns: list of Session objects
+Returns: list of Session objects { [Session, ... ] }
 
 #### getYears():
 Get all Georgia General Assembly years (run automatically when GeneralAssembly object created, so doesn't need to be manually run)
@@ -50,7 +50,7 @@ Returns: years (JSON)
 #### getVotes():
 Get all Georgia General Assembly votes
 
-Returns: list of Vote objects
+Returns: list of Vote objects { [Vote, ... ] }
 
 #### getVote(voteId, Session object (optional), Legislation object (optional)):
 Get a specific vote
@@ -59,27 +59,28 @@ Returns: Vote object
 #### getMember(int memberId, Session object (optional), Committee object (optional)):
 Get a specific member
 
-Returns: Member object
+Returns: Member object {Member}
 
 #### getCommittee(int committeeId, Session object (optional), Member object (optional), Legislation object (optional)):
 Get a specific committee
 
-Returns: Committee object
+Returns: Committee object {Committee}
 
 #### getLegislation(int legislationId, Session object (optional), Member object (optional), Committee object (optional)):
 Get a specific piece of legislation
 
-Returns: Legislation object
+Returns: Legislation object {Legislation}
 
 #### getCommitteeForSession(int sessionId, int committeeId):
 Get a specific committee from a specific session
 
-Returns: Committee object
+Returns: Committee object {Committee}
 
 #### getLegislationByTypeAndNumber(string billType, int billNumber):
 Get a specific piece of legislation from its bill type and number. Ex. ('HB', 280)
 
-Returns: Legislation object
+Returns: Legislation object {Legislation}
+
 
 ## Session()
 ### Properties:
@@ -89,9 +90,11 @@ Returns: Legislation object
 
 **houseSchedule**: House schedule {JSON}
 
-**members**: list of Member objects {[Member, ...]}
+**members**: dictionary of Member objects { {'Id': Member, ... } }
 
-**legislationItems**: list of Legislation objects {[Legislation, ...]}
+**legislationItems**: dictionary of Legislation objects { {'Name': Legislation, ... } }
+
+**committees**: dictionary of Committee objects { {'Code': Committee, ... } }
 
 **description**
 
@@ -108,17 +111,18 @@ Returns: Chamber schedule (JSON)
 #### getMembers():
 Get the session's members
 
-Returns: list of Member objects
+Returns: dictionary of Member objects  { {'Id': Member, ... } }
 
 #### getLegislationItems():
 Get the sessions' pieces of legislation
 
-Returns: list of Legislation objects
+Returns: dictionary of Legislation objects { {'Name': Legislation, ... } }
 
 #### getCommittees():
 Get the sessions' committees
 
-Returns: list of Committee objects
+Returns: dictionary of Committee objects { {'Code': Committee, ... } }
+
 
 ## Member()
 ### Properties:
@@ -126,7 +130,7 @@ Returns: list of Committee objects
 
 **session**: Session object {Session}
 
-**currentCommittees**: dictionary of committees member serves on {JSON, Committee}
+**currentCommittees**: list of dictionaries of committees member serves on { [{'Code', Committee, 'Role'}, {}, ...] }
 
 **address**: {string}
 
@@ -160,7 +164,7 @@ Returns: list of Committee objects
 
 **residence**: city of residence {string}
 
-**sessions**: list of sessions the member has served {[Session, ...]}
+**sessions**: list of sessions the member has served, most recent first { [Session, ...] }
 
 **party**: member's political party {string}
 
@@ -186,7 +190,8 @@ Returns: list of Committee objects
 #### getCommittees(Session object (optional), Committee object (optional)):
 Get committees the member serves on
 
-Returns: dictionary of Committee objects
+Returns: list of dictionaries of Committee objects { [{'Code', Committee, 'Role'}, {}, ...] }
+
 
 ## Vote()
 ### Properties:
@@ -212,17 +217,18 @@ Returns: dictionary of Committee objects
 
 **json**: raw data of Vote object {JSON}
 
+
 ## Legislation()
 ### Properties:
 **Id**: ID number {int}
 
 **session**: Session object {Session}
 
-**votes**: list of votes for the legislation {[Vote, ...]}
+**votes**: dictionary of votes for the legislation { {'Id': Vote, ...} }
 
-**committees**: dictionary of committees discussing the legislaton {JSON, Committee}
+**committees**: list of committees discussing the legislaton { [Committee, ... ] }
 
-**authors**: dictionary of authors of the legislation {JSON, Member}
+**authors**: list of dictionaries of authors of the legislation { [{'Id', Member, 'Type'}, {}, ... ] }
 
 **caption**: {string}
 
@@ -246,7 +252,7 @@ Returns: dictionary of Committee objects
 
 **versions**: {JSON}
 
-**votes**: list of votes for the legislation {[Vote, ...]}
+**votes**: dictionary of votes for the legislation { {'Id': Vote, ... } }
 
 **json**: raw data of Legislation object {JSON}
 
@@ -254,12 +260,13 @@ Returns: dictionary of Committee objects
 #### getVotes():
 Get votes for the piece of legislation
 
-Returns: list of Vote objects
+Returns: dictionary of votes for the legislation { {'Id': Vote, ... } }
 
 #### getCommittees(Session object (optional), Committee object (optional)):
 Get committees discussing the legislation
 
-Returns: list of Committee objects
+Returns: list of committees discussing the legislaton { [Committee, ... ] }
+
 
 ## Committee():
 ### Properties:
@@ -267,7 +274,7 @@ Returns: list of Committee objects
 
 **session**: Session object {Session}
 
-**members**: list of committee members {[Member, ...]}
+**members**: list of committee members { [Member, ...] }
 
 **code**: shorthand code for committee {string}
 
@@ -288,7 +295,8 @@ Returns: list of Committee objects
 #### getMembers(Session object (optional), Member object (optional)):
 Get committee members
 
-Returns: list of Member objects
+Returns: list of committee members { [Member, ...] }
+
 
 ## District():
 ### Properties:
@@ -303,6 +311,7 @@ Returns: list of Member objects
 **number**: {int}
 
 **json**: raw data of District object {JSON}
+
 
 ## Contact():
 ### Properties:

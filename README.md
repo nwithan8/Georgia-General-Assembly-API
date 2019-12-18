@@ -107,7 +107,7 @@ Returns: Legislation object {Legislation}
 #### getSchedule(string chamber):
 Get the schedule of a specific chamber. Ex. ('House')
 
-Returns: Chamber schedule (JSON)
+Returns: chamber schedule (JSON)
 
 #### getMembers():
 Get the session's members

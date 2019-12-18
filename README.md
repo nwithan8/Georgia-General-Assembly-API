@@ -54,6 +54,7 @@ Returns: list of Vote objects { [Vote, ... ] }
 
 #### getVote(voteId, Session object (optional), Legislation object (optional)):
 Get a specific vote
+
 Returns: Vote object {Vote}
 
 #### getMember(int memberId, Session object (optional), Committee object (optional)):

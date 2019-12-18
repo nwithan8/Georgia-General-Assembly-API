@@ -337,7 +337,7 @@ Returns: list of committee members { [Member, ...] }
 **json**: raw data of Contact object {JSON}
 
 # Contact
-Please leave a pull request if you would like to contribute. There are still a few methods supported by the website's API that (due to lack of documentation), I have not yet deciphered. Feel free to check out greencracker's [Georgia_legislature_API_examples]((https://github.com/greencracker/Georgia_legislature_API_examples) for details and explanation of the website's SOAP API.
+Please leave a pull request if you would like to contribute. There are still a few methods supported by the website's API that (due to lack of documentation), I have not yet deciphered. Feel free to check out greencracker's [Georgia_legislature_API_examples](https://github.com/greencracker/Georgia_legislature_API_examples) for details and explanation of the website's SOAP API.
 
 Follow me on Twitter: [@nwithan8](https://twitter.com/nwithan8)
 

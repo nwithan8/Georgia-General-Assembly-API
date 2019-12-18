@@ -7,6 +7,26 @@ A Python library to interact with the Georgia General Assembly website API
 1. Add repo and dependencies with `pip install git+https://github.com/nwithan8/Georgia-General-Assembly-API.git zeep`
 2. Import the module with `import gga` at the top of your Python script(s)
 
+# Example
+```python
+import gga
+
+assemby = gga.GeneralAssembly()
+legislation = assembly.getLegislationByTypeAndNumber('HB','2')
+vote = assembly.getVote(1804)
+member = assembly.getMember(179)
+session = assembly.sessions['2019-2020 Regular Session']
+members = session.getMembers()
+legislationItems = session.getLegislationItems()
+committees = session.getCommittees()
+vote = legislation.getVotes()
+committees = legislation.getCommittees()
+committeeMember = committees[0].getMembers()[0]
+memberName = committeeMember.lastName
+cellPhone = committeeMember.district.cellPhone
+otherCommitteesForCommitteeMember = committeeMember.getCommittees()
+```
+
 # Documentation
 ## GeneralAssembly()
 ### Properties:
@@ -289,3 +309,16 @@ Returns: list of Member objects
 **zipCode**: {int}
 
 **json**: raw data of Contact object {JSON}
+
+# Contact
+Please leave a pull request if you would like to contribute. There are still a few methods supported by the website's API that (due to lack of documentation), I have not yet deciphered. Feel free to check out greencracker's [Georgia_legislature_API_examples]((https://github.com/greencracker/Georgia_legislature_API_examples) for details and explanation of the website's SOAP API.
+
+Hit me up on Twitter: [@nwithan8](https://twitter.com/nwithan8)
+
+Also feel free to check out my other projects here on [GitHub](https://github.com/nwithan8) or join the #developer channel in my Discord server below.
+
+<div align="center">
+	<p>
+		<a href="https://discord.gg/ygRDVE9"><img src="https://discordapp.com/api/guilds/472537215457689601/widget.png?style=banner2" alt="" /></a>
+	</p>
+</div>

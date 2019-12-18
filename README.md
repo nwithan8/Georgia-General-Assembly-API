@@ -157,7 +157,7 @@ Returns: dictionary of Committee objects { {'Code': Committee, ... } }
 
 **cellPhone**: {int}
 
-**contact**: contact details {Contact}
+**contact**: Contact object {Contact}
 
 **biolink**: URL to biography {string}
 

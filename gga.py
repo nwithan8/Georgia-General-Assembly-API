@@ -97,8 +97,8 @@ class Session:
             self.library = data['Library']
             self.json = data
         # To avoid time-consuming calcs at initialization
-        #self.getSchedule('House')
-        #self.getSchedule('Senate')
+        self.getSchedule('House')
+        self.getSchedule('Senate')
     
     def getSchedule(self, chamber):
         if chamber == 'House':
@@ -115,19 +115,21 @@ class Session:
         if not self.members:
             self.members = {}
             for m in Client(base + 'Members' + suffix).service.GetMembersBySession(self.Id):
-                self.members[(m['Name']['First'] + " " + m['Name']['Last'])] = self.getMember(m['Id'], self)
+                self.members[m['Id']] = self.getMember(m['Id'], self)
         return self.members
     
+    # Internal helper method
     def getMember(self, Id, session = None, committee = None):
         return Member(Id, session, committee)
         
-    def getLegislation(self):
+    def getLegislationItems(self):
         if not self.legislation:
             self.legislation = {}
             for l in Client(base + 'Legislation' + suffix).service.GetLegislationForSession(self.Id):
                 self.legislation[l['Description']] = self.getLegislation(l['Id'], self)
         return self.legislation
     
+    # Internal helper method
     def getLegislation(self, Id, session = None, member = None, committee = None):
         return Legislation(Id, session, member, committee)
     
@@ -138,6 +140,7 @@ class Session:
                 self.committees[c['Code']] = self.getCommittee(c['Id'], self)
         return self.committees
     
+    # Internal helper method
     def getCommittee(self, Id, session = None, member = None, legislation = None):
         return Committee(Id, session, member)
     
@@ -151,7 +154,8 @@ class Member:
         self.Id = Id
         self.session = session
         self.getMember()
-        
+    
+    # Internal helper method
     def getMember(self, committee = None):
         data = Client(base + 'Members' + suffix).service.GetMember(self.Id)
         self.address = data['Address'] # JSON
@@ -180,6 +184,7 @@ class Member:
         self.legId = latestSession['LegId']
         self.serviceId = latestSession['ServiceId']
         self.chamber = latestSession['District']['Type']
+        self.district = District(latestSession['District'])
         self.districtNumber = latestSession['District']['Number']
         self.districtId = latestSession['District']['Id']
         self.title = latestSession['Title']
@@ -196,7 +201,7 @@ class Member:
                     self.currentCommittees.append(tempDict)
         return self.currentCommittees
             
-        
+    # Internal helper method    
     def getCommittee(self, Id, session = None, member = None, legislation = None):
         return Committee(Id, session, member)
 
@@ -209,7 +214,8 @@ class Vote:
         self.Id = Id
         self.session = session
         self.getVote()
-            
+     
+    # Internal helper method
     def getVote(self, legislation = None):
         data = Client(base + 'Votes' + suffix).service.GetVote(self.Id)
         self.day = data['Day']
@@ -241,16 +247,18 @@ class Legislation:
         self.session = session
         self.getLegislation(member, committee)
         # To avoid time-consuming calcs at initialization
-        #self.getVotesForLegislation()
+        self.getVotes()
     
-    def getVotesForLegislation(self):
+    # Internal helper method
+    def getVotes(self):
         if not self.votes:
             self.votes = {}
             return Client(base + 'Votes' + suffix).service.GetVotesForLegislation(self.Id)
             for v in Client(base + 'Votes' + suffix).service.GetVotesForLegislation(self.Id):
                 self.votes[v['VoteId']] = self.getVote(v['VoteId'], v, self.session, self)
         return self.votes
-        
+    
+    # Internal helper method
     def getLegislation(self, member = None, committee = None):
         details = self.client.service.GetLegislationDetail(self.Id)
         self.caption = details['Caption']
@@ -259,7 +267,6 @@ class Legislation:
         for a in details['Authors']['Sponsorship']:
             tempDict = {'Id': a['MemberId'], 'Member': self.getMember(a['MemberId'], self.session, committee), 'Type': a['Type']}
             self.authors.append(tempDict)
-        self.caption = details['Caption']
         self.documentType = details['DocumentType']
         #self.latestVersion = details['LastestVersion'] # JSON
         self.type = details['LegislationType']
@@ -271,7 +278,7 @@ class Legislation:
         self.statusHistory = details['StatusHistory'] # Array of JSON
         self.summary = details['Summary']
         self.versions = details['Versions'] # Array of JSON
-        self.votes = self.votes if self.votes else self.getVotesForLegislation()
+        self.votes = self.votes if self.votes else self.getVotes()
         self.json = details
         
     def getCommittees(self, session = None, committee = None):
@@ -282,13 +289,16 @@ class Legislation:
                 if not committee or c['Id'] != committee.Id:
                     self.committees.append(self.getCommittee(c['Id'], self.session, member, self))
         return self.committees
-        
+    
+    # Internal helper method
     def getVote(self, Id, session = None, legislation = None):
         return Vote(Id, session, legislation)
-        
+    
+    # Internal helper method
     def getMember(self, Id, session = None, committee = None):
         return Member(Id, session, committee)
-        
+    
+    # Internal helper method
     def getCommittee(self, Id, session = None, member = None, legislation = None):
         return Committee(Id, session, member)
 
@@ -302,7 +312,8 @@ class Committee:
         self.Id = Id
         self.session = session
         self.getCommittee()
-            
+    
+    # Internal helper method
     def getCommittee(self, member = None, legislation = None):
         data = self.client.service.GetCommitteeForSession(self.Id, self.session.Id) if self.session else self.client.service.GetCommittee(self.Id)
         self.code = data['Code']
@@ -314,7 +325,6 @@ class Committee:
         self.subcommittees = data['SubCommittees']
         self.json = data
         
-    # break out functions to avoid loops at initialization (Members -> Committees -> Members -> Committees)
     def getMembers(self, session = None, member = None):
         if not self.members:
             session = session if session else self.session
@@ -323,7 +333,8 @@ class Committee:
                 if not member or m['Member']['Id'] != member.Id:
                     self.members.append(self.getMember(m['Member']['Id'], session, self))
         return self.members
-        
+    
+    # Internal helper method
     def getMember(self, Id, session = None, committee = None):
         return Member(Id, session, committee)
 
@@ -332,7 +343,7 @@ class District:
     def __init__(self, district):
         self.coverage = district['Coverage']
         self.post = district['Post']
-        self.id = district['Id']
+        self.Id = district['Id']
         self.type = district['Type']
         self.number = district['Number']
         self.json = district

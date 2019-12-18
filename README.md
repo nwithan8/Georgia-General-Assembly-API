@@ -339,7 +339,7 @@ Returns: list of committee members { [Member, ...] }
 # Contact
 Please leave a pull request if you would like to contribute. There are still a few methods supported by the website's API that (due to lack of documentation), I have not yet deciphered. Feel free to check out greencracker's [Georgia_legislature_API_examples]((https://github.com/greencracker/Georgia_legislature_API_examples) for details and explanation of the website's SOAP API.
 
-Hit me up on Twitter: [@nwithan8](https://twitter.com/nwithan8)
+Follow me on Twitter: [@nwithan8](https://twitter.com/nwithan8)
 
 Also feel free to check out my other projects here on [GitHub](https://github.com/nwithan8) or join the #developer channel in my Discord server below.
 

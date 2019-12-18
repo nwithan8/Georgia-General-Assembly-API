@@ -97,9 +97,9 @@ Returns: Legislation object {Legislation}
 
 **committees**: dictionary of Committee objects { {'Code': Committee, ... } }
 
-**description**
+**description**: {string}
 
-**library**
+**library**: {string}
 
 **json**: raw data of Session object {JSON}
 

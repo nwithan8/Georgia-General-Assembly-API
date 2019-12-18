@@ -173,7 +173,7 @@ Returns: dictionary of Committee objects { {'Code': Committee, ... } }
 
 **serviceId**: {int}
 
-**chamber**: what chamber the member served in {string}
+**chamber**: what chamber the member serves in {string}
 
 **districtNumber**: {int}
 

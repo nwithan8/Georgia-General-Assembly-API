@@ -1,4 +1,4 @@
-# Georgia-General-Assembly-API
+# Georgia General Assembly API
 A Python library to interact with the Georgia General Assembly website API
 
 *Inspired by [greencracker](https://github.com/greencracker "greencracker"). Major thanks to her [legis.ga.gov API endpoint discovery](https://github.com/greencracker/Georgia_legislature_API_examples)*

@@ -18,22 +18,19 @@ class GeneralAssembly:
         #self.getVotes()
         
     def getSessions(self):
-        if not self.sessions:
-            self.sessions = {}
-            for s in self.client.service.GetSessions():
-                self.sessions[s['Description']] = Session(s['Id'], s)
+        self.sessions = {}
+        for s in self.client.service.GetSessions():
+            self.sessions[s['Description']] = Session(s['Id'], s)
         return self.sessions
     
     def getYears(self):
-        if not self.years:
-            self.years = self.client.service.GetYears()
+        self.years = self.client.service.GetYears()
         return self.years
     
     def getVotes(self):
-        if not self.votes:
-            self.votes = {}
-            for v in Client(base + 'Votes' + suffix).service.GetVotes():
-                self.votes[v['VoteId']] = self.getVote(v['VoteId'])
+        self.votes = {}
+        for v in Client(base + 'Votes' + suffix).service.GetVotes():
+            self.votes[v['VoteId']] = self.getVote(v['VoteId'])
         return self.votes
     
     def getVote(self, Id, session = None, legislation = None):
@@ -102,17 +99,15 @@ class Session:
     
     def getSchedule(self, chamber):
         if chamber == 'House':
-            if not self.houseSchedule:
-                self.houseSchedule = zeep.helpers.serialize_object(self.client.service.GetSessionSchedule(self.Id, chamber))
+            self.houseSchedule = zeep.helpers.serialize_object(self.client.service.GetSessionSchedule(self.Id, chamber))
             return self.houseSchedule
         if chamber == 'Senate':
-            if not self.senateSchedule:
-                self.senateSchedule = zeep.helpers.serialize_object(self.client.service.GetSessionSchedule(self.Id, chamber))
+            self.senateSchedule = zeep.helpers.serialize_object(self.client.service.GetSessionSchedule(self.Id, chamber))
             return self.senateSchedule
         return None
         
     def getMembers(self):
-        if not self.members:
+        if not self.members: # members don't change
             self.members = {}
             for m in Client(base + 'Members' + suffix).service.GetMembersBySession(self.Id):
                 self.members[m['Id']] = self.getMember(m['Id'], self)
@@ -123,10 +118,9 @@ class Session:
         return Member(Id, session, committee)
         
     def getLegislationItems(self):
-        if not self.legislation:
-            self.legislation = {}
-            for l in Client(base + 'Legislation' + suffix).service.GetLegislationForSession(self.Id):
-                self.legislation[l['Description']] = self.getLegislation(l['Id'], self)
+        self.legislation = {}
+        for l in Client(base + 'Legislation' + suffix).service.GetLegislationForSession(self.Id):
+            self.legislation[l['Description']] = self.getLegislation(l['Id'], self)
         return self.legislation
     
     # Internal helper method
@@ -134,10 +128,9 @@ class Session:
         return Legislation(Id, session, member, committee)
     
     def getCommittees(self):
-        if not self.committees:
-            self.committees = {}
-            for c in Client(base + 'Committees' + suffix).service.GetCommitteesBySession(self.Id):
-                self.committees[c['Code']] = self.getCommittee(c['Id'], self)
+        self.committees = {}
+        for c in Client(base + 'Committees' + suffix).service.GetCommitteesBySession(self.Id):
+            self.committees[c['Code']] = self.getCommittee(c['Id'], self)
         return self.committees
     
     # Internal helper method
@@ -192,13 +185,12 @@ class Member:
         self.json = data
         
     def getCommittees(self, session = None, committee = None):
-        if not self.currentCommittees:
-            self.currentCommittees = ([committee] if committee else [])
-            latestSession = self.json['SessionsInService']['LegislativeService'][0]
-            for c in latestSession['CommitteeMemberships']['CommitteeMembership']:
-                if not committee or c['Committee']['Id'] != committee.Id:
-                    tempDict = {'Code': c['Committee']['Code'], 'Committee': self.getCommittee(c['Committee']['Id'], self.session, self), 'Role': c['Role']}
-                    self.currentCommittees.append(tempDict)
+        self.currentCommittees = ([committee] if committee else [])
+        latestSession = self.json['SessionsInService']['LegislativeService'][0]
+        for c in latestSession['CommitteeMemberships']['CommitteeMembership']:
+            if not committee or c['Committee']['Id'] != committee.Id:
+                tempDict = {'Code': c['Committee']['Code'], 'Committee': self.getCommittee(c['Committee']['Id'], self.session, self), 'Role': c['Role']}
+                self.currentCommittees.append(tempDict)
         return self.currentCommittees
             
     # Internal helper method    
@@ -251,11 +243,9 @@ class Legislation:
     
     # Internal helper method
     def getVotes(self):
-        if not self.votes:
-            self.votes = {}
-            return Client(base + 'Votes' + suffix).service.GetVotesForLegislation(self.Id)
-            for v in Client(base + 'Votes' + suffix).service.GetVotesForLegislation(self.Id):
-                self.votes[v['VoteId']] = self.getVote(v['VoteId'], v, self.session, self)
+        self.votes = {}
+        for v in Client(base + 'Votes' + suffix).service.GetVotesForLegislation(self.Id):
+            self.votes[v['VoteId']] = self.getVote(v['VoteId'], v, self.session, self)
         return self.votes
     
     # Internal helper method
@@ -282,12 +272,11 @@ class Legislation:
         self.json = details
         
     def getCommittees(self, session = None, committee = None):
-        if not self.committees:
-            session = session if session else self.session
-            self.committees = ([committee] if committee else [])
-            for c in details['Committees']['CommitteeListing']:
-                if not committee or c['Id'] != committee.Id:
-                    self.committees.append(self.getCommittee(c['Id'], self.session, member, self))
+        session = session if session else self.session
+        self.committees = ([committee] if committee else [])
+        for c in details['Committees']['CommitteeListing']:
+            if not committee or c['Id'] != committee.Id:
+                self.committees.append(self.getCommittee(c['Id'], self.session, member, self))
         return self.committees
     
     # Internal helper method
@@ -326,7 +315,7 @@ class Committee:
         self.json = data
         
     def getMembers(self, session = None, member = None):
-        if not self.members:
+        if not self.members: # committee members don't change
             session = session if session else self.session
             self.members = ([member] if member else [])
             for m in self.json['Members']['CommitteeMember']:

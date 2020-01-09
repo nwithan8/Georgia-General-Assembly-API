@@ -37,7 +37,7 @@ otherCommitteesForCommitteeMember = committeeMember.getCommittees()
 **votes**: dictionary of Vote objects { {'Id': Vote, ... } }
 
 ### Methods:
-#### getSession():
+#### getSessions():
 Get all Georgia General Assembly sessions (run automatically when GeneralAssembly object created, so doesn't need to be manually run)
 
 Returns: dictionary of Session objects, most recent first { {'Name': Session, ... } }

@@ -4,12 +4,12 @@ A Python library to interact with the Georgia General Assembly website API
 *Inspired by [greencracker](https://github.com/greencracker "greencracker"). Major thanks to her [legis.ga.gov API endpoint discovery](https://github.com/greencracker/Georgia_legislature_API_examples)*
 
 # Installation & Setup
-1. Add repo and dependencies with `pip install git+https://github.com/nwithan8/Georgia-General-Assembly-API.git zeep`
-2. Import the module with `import gga` at the top of your Python script(s)
+1. `pip install GGA`
+2. Import the module with `from GGA import gga` at the top of your Python script(s)
 
 # Example
 ```python
-import gga
+from GGA import gga
 
 assemby = gga.GeneralAssembly()
 legislation = assembly.getLegislationByTypeAndNumber('HB','2')

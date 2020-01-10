@@ -1,12 +1,8 @@
 from distutils.core import setup
 
-long_desc = ""
-with open('README.md', 'r') as f:
-    long_desc = f.read()
-
 setup(
-  name = 'gga',         # How you named your package folder (MyLib)
-  packages = ['gga'],   # Chose the same as "name"
+  name = 'GGA',         # How you named your package folder (MyLib)
+  packages = ['GGA'],   # Chose the same as "name"
   version = '1.0',      # Start with a small number and increase it with every change you make
   license='GNU GPLv3',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
   description = 'Interact with Georgia General Assembly website data',   # Give a short description about your library

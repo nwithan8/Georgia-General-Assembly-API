@@ -1,10 +1,17 @@
 from distutils.core import setup
+
+long_desc = ""
+with open('README.md', 'r') as f:
+    long_desc = f.read()
+
 setup(
   name = 'gga',         # How you named your package folder (MyLib)
   packages = ['gga'],   # Chose the same as "name"
   version = '1.0',      # Start with a small number and increase it with every change you make
   license='GNU GPLv3',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
   description = 'Interact with Georgia General Assembly website data',   # Give a short description about your library
+  long_description_content_type='text/markdown',
+  long_description='Full documentation available on GitHub at https://github.com/nwithan8/Georgia-General-Assembly-API',
   author = 'Nate Harris',                   # Type in your name
   author_email = 'n8gr8gbln@gmail.com',      # Type in your E-Mail
   url = 'https://github.com/nwithan8/Georgia-General-Assembly-API',   # Provide either the link to your github or to your website
